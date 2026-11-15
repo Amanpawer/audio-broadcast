@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audio Broadcast</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #101827;
+  color: white;
+  text-align: center;
+  padding: 25px 15px;
+}
+.container {
+  max-width: 420px;
+  margin: 50px auto;
+  padding: 25px;
+  background: #1d293b;
+  border-radius: 18px;
+}
+h1 { color: #55d6be; }
+p { color: #cbd5e1; }
+button {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  border: 0;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.host { background: #55d6be; color: #102027; }
+.receiver { background: #3978ed; color: white; }
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 9px;
+  border: 1px solid #64748b;
+  background: #101827;
+  color: white;
+  font-size: 17px;
+  text-align: center;
+}
+#room { font-size: 24px; color: #55d6be; }
+#status { margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔊 Audio Broadcast</h1>
+  <p>Share audio with multiple phones</p>
+
+  <h3>Host Mode</h3>
+  <button class="host" onclick="createRoom()">Create Room</button>
+  <p id="room"></p>
+  <button class="host" onclick="copyRoom()">Copy Room Code</button>
+
+  <hr>
+
+  <h3>Receiver Mode</h3>
+  <input id="roomInput" placeholder="Enter Room Code">
+  <button class="receiver" onclick="joinRoom()">Join Room</button>
+
+  <p id="status">Status: Not Connected</p>
+</div>
+
+<script>
+let roomCode = "";
+
+function createRoom() {
+  roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+  document.getElementById("room").textContent = "Room: " + roomCode;
+  document.getElementById("status").textContent =
+    "Room created. Audio streaming is not connected yet.";
+}
+
+function copyRoom() {
+  if (!roomCode) {
+    alert("First create a room!");
+    return;
+  }
+  navigator.clipboard.writeText(roomCode)
+    .then(() => alert("Room code copied!"))
+    .catch(() => alert("Please copy this code: " + roomCode));
+}
+
+function joinRoom() {
+  const code = document.getElementById("roomInput").value.trim();
+  if (!code) {
+    alert("Please enter a room code!");
+    return;
+  }
+  document.getElementById("status").textContent =
+    "Room code entered: " + code + ". Connection feature is coming next.";
+}
+</script>
+</body>
+</html>
